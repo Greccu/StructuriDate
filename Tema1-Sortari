@@ -20,33 +20,34 @@ def bubblesort(l):
 def cmmdc(l):
     i=0
     while l[i]==0:
-        i++
+        i-=-1
     d=l[i]
     for i in range(1,len(l)):
         c=l[i]
         if c == 0:
-        break
+            break
         while c != 0: 
             if c>=d:
                 c-=d
-            else d-=c
+            else:
+                d-=c
     return d
 
 def countsort(l):
-        if len(l)==0:
+    if len(l)==0:
         return l
     d=cmmdc(l)
     m=min(l)    # daca numerele nu pot fi aduse intr-un interval
     M=max(l)    # mai mic decat 1mil, nu se vor sorta elementele 
-    if max//d-min//d>=1000000:
+    if M//d-m//d>=1000000:
         return "Algoritm inoptim, nu se va executa sortarea"
-    m/=d
+    m//=d
     k=copy(l)
     p=0     #pentru a sti la final daca elementele au fost prelucrate
-    if max//d-min//d<1000:     # in acest caz optimizarea consuma timp inutil(cred)
+    if M//d-m//d<1000:     # in acest caz optimizarea consuma timp inutil(cred)
         p=1                     #
         for i in range(len(k)):     # prelucrare lista
-            k[i]=k[i]/d-m
+            k[i]=k[i]//d-m
         M-=m    # maximul listei prelucrate
         
         f=[0]*(M+1)
@@ -111,6 +112,7 @@ def mergesort(l):
 def validsort(func):
     global l
     m=func(l)
+    print(m)
     if m==sorted(m):
         return("sortare corecta")
     else:
@@ -132,6 +134,7 @@ for sr in sortari:
     print(validsort(sr))
     print(timesort(sr))
     print()
+    
     
     
     
