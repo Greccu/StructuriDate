@@ -1,9 +1,110 @@
 from random import choice
 from copy import copy
 from time import time
-from sortari import *
-#creeaza librarie, importa functiile ca parametri la teste(ex.: validsort(lista,metoda_de_sortare))
+
 #radix sort spate-fata, baza constanta modificabila
+
+def bubblesort(l):
+    k=copy(l)
+    ok=1
+    for i in range(1,len(k)-1):
+        ok=0
+        for j in range(len(k)-i):           
+            if(k[j]>k[j+1]):
+                ok=1
+                k[j],k[j+1]=k[j+1],k[j]
+        if ok==0:
+            break
+    return k
+
+def cmmdc(l):
+    i=0
+    while l[i]==0:
+        i++
+    d=l[i]
+    for i in range(1,len(l)):
+        c=l[i]
+        if c == 0:
+        break
+        while c != 0: 
+            if c>=d:
+                c-=d
+            else d-=c
+    return d
+
+def countsort(l):
+        if len(l)==0:
+        return l
+    d=cmmdc(l)
+    m=min(l)    # daca numerele nu pot fi aduse intr-un interval
+    M=max(l)    # mai mic decat 1mil, nu se vor sorta elementele 
+    if max//d-min//d>=1000000:
+        return "Algoritm inoptim, nu se va executa sortarea"
+    m/=d
+    k=copy(l)
+    p=0     #pentru a sti la final daca elementele au fost prelucrate
+    if max//d-min//d<1000:     # in acest caz optimizarea consuma timp inutil(cred)
+        p=1                     #
+        for i in range(len(k)):     # prelucrare lista
+            k[i]=k[i]/d-m
+        M-=m    # maximul listei prelucrate
+        
+        f=[0]*(M+1)
+    for i in k:
+        f[i]+=1
+    j=0
+    for i in range(M+1):
+        while f[i]>0:
+            k[j]=i
+            j+=1 
+            f[i]-=1
+    if p==1:
+        for i in range(len(k)):
+            k[i]=(k[i]+m)*d
+    return k
+    
+def radixsort(l):
+    return l
+
+def pivot(l):                           #mediana a 3 numere random din lista
+    a,b,c=choice(l),choice(l),choice(l)
+    if a>b:
+	    if a < c:
+	        return a
+	    elif b > c:
+	        return b
+	    else:
+	        return c
+    else:
+	    if a > c:
+	        return a
+	    elif b < c:
+	        return b
+	    else:
+	        return c
+
+
+def quicksort(l):
+    p=pivot(l)
+    low=[]
+    high=[]
+    return l
+    
+def interclasare(l1,l2):
+    i=0
+    j=0
+    l=[]
+    while i<len(l1) and i<len(l2):
+        if l1[i]<=l2[j]:
+            l.append(l1[i])
+            i-=-1
+        else:
+            l.append(l2[j])
+            j-=-1
+def mergesort(l):
+    return l
+
+##########################################################
 
 
 
@@ -33,77 +134,5 @@ for sr in sortari:
     print()
     
     
-    #####################################################
     
-    
-    
-    
-    from random import choice
-from copy import copy
-from time import time
-
-def bubblesort(l):
-    k=copy(l)
-    ok=1
-    for i in range(1,len(k)-1):
-        ok=0
-        for j in range(len(k)-i):
-            if(k[j]>k[j+1]):
-                ok=1
-                k[j],k[j+1]=k[j+1],k[j]
-        if ok==0:
-            break
-    return k
-
-def countsort(l):
-    if len(l)==0:
-        return l
-    k=copy(l)
-    m=max(k)+1
-    f=[0]*m
-    for i in k:
-        f[i]+=1
-    j=0
-    for i in range(m):
-        while f[i]>0:
-            k[j]=i
-            j+=1 
-            f[i]-=1
-    return k
-    
-def radixsort(l):
-    return l
-
-def pivot(l):
-    a,b,c=choice(l),choice(l),choice(l)
-    if a>b:
-	    if a < c:
-	        return a
-	    elif b > c:
-	        return b
-	    else:
-	        return c
-    else:
-	    if a > c:
-	        return a
-	    elif b < c:
-	        return b
-	    else:
-	        return c
-
-
-def quicksort(l):
-    p=pivot(l)
-    low=[]
-    high=[]
-    return l
-    
-def interclasare(l1,l2):
-    i=0
-    j=0
-    l=[]
-    while i<len(l1) and i<len(l2)
-    
-def mergesort(l):
-    return l
     
