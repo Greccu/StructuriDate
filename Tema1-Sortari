@@ -1,0 +1,109 @@
+from random import choice
+from copy import copy
+from time import time
+from sortari import *
+#creeaza librarie, importa functiile ca parametri la teste(ex.: validsort(lista,metoda_de_sortare))
+#radix sort spate-fata, baza constanta modificabila
+
+
+
+def validsort(func):
+    global l
+    m=func(l)
+    if m==sorted(m):
+        return("sortare corecta")
+    else:
+        return("sortare incorecta")
+    
+def timesort(func):
+    global l
+    st=time()
+    func(l)
+    return "{} secunde".format(str(time()-st))
+
+with open("input.txt","r") as f:
+    l=f.readline().split()
+    l=[int(i) for i in l]
+
+sortari=[bubblesort,countsort,radixsort,quicksort,mergesort]
+for sr in sortari:
+    print(sr.__name__)
+    print(validsort(sr))
+    print(timesort(sr))
+    print()
+    
+    
+    #####################################################
+    
+    
+    
+    
+    from random import choice
+from copy import copy
+from time import time
+
+def bubblesort(l):
+    k=copy(l)
+    ok=1
+    for i in range(1,len(k)-1):
+        ok=0
+        for j in range(len(k)-i):
+            if(k[j]>k[j+1]):
+                ok=1
+                k[j],k[j+1]=k[j+1],k[j]
+        if ok==0:
+            break
+    return k
+
+def countsort(l):
+    if len(l)==0:
+        return l
+    k=copy(l)
+    m=max(k)+1
+    f=[0]*m
+    for i in k:
+        f[i]+=1
+    j=0
+    for i in range(m):
+        while f[i]>0:
+            k[j]=i
+            j+=1 
+            f[i]-=1
+    return k
+    
+def radixsort(l):
+    return l
+
+def pivot(l):
+    a,b,c=choice(l),choice(l),choice(l)
+    if a>b:
+	    if a < c:
+	        return a
+	    elif b > c:
+	        return b
+	    else:
+	        return c
+    else:
+	    if a > c:
+	        return a
+	    elif b < c:
+	        return b
+	    else:
+	        return c
+
+
+def quicksort(l):
+    p=pivot(l)
+    low=[]
+    high=[]
+    return l
+    
+def interclasare(l1,l2):
+    i=0
+    j=0
+    l=[]
+    while i<len(l1) and i<len(l2)
+    
+def mergesort(l):
+    return l
+    
