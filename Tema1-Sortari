@@ -4,6 +4,7 @@
 from random import *
 from copy import copy
 from time import time
+from math import log
 
 #radix sort spate-fata, baza constanta modificabila
 
@@ -48,7 +49,7 @@ def countsort(l):
     d=cmmdc(l)
     m=min(l)    # daca numerele nu pot fi aduse intr-un interval
     M=max(l)    # mai mic decat 1mil, nu se vor sorta elementele 
-    if M//d-m//d>=1000000:
+    if M//d-m//d>=100000:
         return "Algoritm inoptim, nu se va executa sortarea"
     m//=d
     k=copy(l)
@@ -72,9 +73,29 @@ def countsort(l):
         for i in range(len(k)):
             k[i]=(k[i]+m)*d
     return k
+
+def convert(k):
+    K=[]
+    for values in k.values():
+        for value in values:
+            K.append(value)
+    return K
     
+
 def radixsort(l):
-    return l
+    L=copy(l)
+    baza_radix=256
+    curent=1
+    k={}
+    n=(int(log(max(l),baza_radix)) + 1)
+    for _ in range(n):
+        for i in range(baza_radix):
+            k[i]=[]
+        for i in L:
+            k[(i//curent)%baza_radix].append(i)
+        L=convert(k)
+        curent*=baza_radix
+    return L
 
 def pivot(l):                           #mediana a 3 numere random din lista
     a,b,c=choice(l),choice(l),choice(l)
@@ -146,7 +167,7 @@ def timesort(func):
     t=time()
     func(l)
     t=time()-t
-    return "{} secunde".format("%.2f" % t)
+    return "%.2f" % t
     
     
 ############################# teste ##########################
@@ -188,20 +209,25 @@ with open("input.txt","r") as f:
         l=[int(i) for i in l]
 
 sortari=[bubblesort,countsort,radixsort,quicksort,mergesort]
-teste=[Test1_lista_data,]
-timpi=[[]*5]*7
+teste=[Test1_lista_data]
+timpi=[]
+for i in range(len(teste)):
+    timpi.append([0]*len(sortari))
+    
 
-    for test in teste:
-        print(test.__name__)
-        for sr in sortari:
-            print(sr.__name__)
-            s=test(sr)
-            print(t)
+i=0
+for test in teste:
+    print(test.__name__)
+    j=0
+    for sr in sortari:
+        print(sr.__name__)
+        s=test(sr)
+        print(s)
         if s=="sortare corecta":
             t=timesort(sr)
-                print("{} secunde".format("%.2f" % t))
-    print()
-    
-
-    
-    
+            timpi[i][j]=float(t)
+            print("{} secunde".format(t))
+        print()
+        j+=1
+    i+=1
+print(timpi)
