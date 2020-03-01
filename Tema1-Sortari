@@ -1,10 +1,15 @@
-from random import choice
+#INPUT 1 - RANDOM(NR,MAX*)  2 - LIST
+
+
+from random import *
 from copy import copy
 from time import time
 
 #radix sort spate-fata, baza constanta modificabila
 
 def bubblesort(l):
+    if(len(l)>=30000):
+        return "Algoritm inoptim, nu se va executa sortarea"
     k=copy(l)
     ok=1
     for i in range(1,len(k)-1):
@@ -50,7 +55,7 @@ def countsort(l):
             k[i]=k[i]//d-m
         M-=m    # maximul listei prelucrate
         
-        f=[0]*(M+1)
+    f=[0]*(M+1)
     for i in k:
         f[i]+=1
     j=0
@@ -91,18 +96,42 @@ def quicksort(l):
     high=[]
     return l
     
-def interclasare(l1,l2):
+def merge(l1,l2):
     i=0
     j=0
-    l=[]
-    while i<len(l1) and i<len(l2):
+    l3=[]
+    while i<len(l1) and j<len(l2):
         if l1[i]<=l2[j]:
-            l.append(l1[i])
-            i-=-1
+            l3.append(l1[i])
+            i+=1
         else:
-            l.append(l2[j])
-            j-=-1
+            l3.append(l2[j])
+            j+=1
+    while i < len(l1): 
+            l3.append(l1[i])
+            i+=1
+    while j < len(l2): 
+            l3.append(l2[j])
+            j+=1
+    return l3
+    
 def mergesort(l):
+    if len(l)<=1:
+        return l
+    m=len(l)//2
+    l1=l[:m]
+    l2=l[m:]
+    k1=mergesort(l1)
+    k2=mergesort(l2)
+    k=merge(k1,k2)
+    return k
+    
+
+def generator(nr,maxim=1000000):
+    l=[]
+    for i in range(nr):
+	    value=randint(0, maxim)
+	    l.append(value)
     return l
 
 ##########################################################
@@ -112,29 +141,48 @@ def mergesort(l):
 def validsort(func):
     global l
     m=func(l)
-    print(m)
+    #print(m)
+    if isinstance(m, str):
+        return m
     if m==sorted(m):
         return("sortare corecta")
     else:
         return("sortare incorecta")
     
 def timesort(func):
-    global l
-    st=time()
+    t=time()
     func(l)
-    return "{} secunde".format(str(time()-st))
+    t=time()-t
+    return "{} secunde".format("%.2f" % t)
+
+
+############################# main ###########################
+
+
 
 with open("input.txt","r") as f:
-    l=f.readline().split()
-    l=[int(i) for i in l]
+    INPUTTYPE=int(f.readline())
+    if INPUTTYPE==1:
+        z=f.readline()
+        if " " in z:
+            x,y=z.split()
+            x,y=int(x),int(y)
+            print("Generare numere...")
+            print()
+            l=generator(x,y)
+        else:
+            z=int(z)
+            l=generator(z)
+    else:
+        l=f.readline().split()
+        l=[int(i) for i in l]
 
 sortari=[bubblesort,countsort,radixsort,quicksort,mergesort]
 for sr in sortari:
     print(sr.__name__)
-    print(validsort(sr))
-    print(timesort(sr))
+    v=validsort(sr)
+    print(v)
+    if v=="sortare corecta":
+        print(timesort(sr))
     print()
-    
-    
-    
     
