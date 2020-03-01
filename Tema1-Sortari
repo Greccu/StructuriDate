@@ -7,6 +7,10 @@ from time import time
 
 #radix sort spate-fata, baza constanta modificabila
 
+
+############################# sortari ########################
+
+
 def bubblesort(l):
     if(len(l)>=30000):
         return "Algoritm inoptim, nu se va executa sortarea"
@@ -133,12 +137,22 @@ def generator(nr,maxim=1000000):
 	    value=randint(0, maxim)
 	    l.append(value)
     return l
+    
+    
+############################# validare+timp ###################
 
-##########################################################
+
+def timesort(func):
+    t=time()
+    func(l)
+    t=time()-t
+    return "{} secunde".format("%.2f" % t)
+    
+    
+############################# teste ##########################
 
 
-
-def validsort(func):
+def Test1_lista_data(func):
     global l
     m=func(l)
     #print(m)
@@ -149,11 +163,7 @@ def validsort(func):
     else:
         return("sortare incorecta")
     
-def timesort(func):
-    t=time()
-    func(l)
-    t=time()-t
-    return "{} secunde".format("%.2f" % t)
+
 
 
 ############################# main ###########################
@@ -178,11 +188,20 @@ with open("input.txt","r") as f:
         l=[int(i) for i in l]
 
 sortari=[bubblesort,countsort,radixsort,quicksort,mergesort]
-for sr in sortari:
-    print(sr.__name__)
-    v=validsort(sr)
-    print(v)
-    if v=="sortare corecta":
-        print(timesort(sr))
+teste=[Test1_lista_data,]
+timpi=[[]*5]*7
+
+    for test in teste:
+        print(test.__name__)
+        for sr in sortari:
+            print(sr.__name__)
+            s=test(sr)
+            print(t)
+        if s=="sortare corecta":
+            t=timesort(sr)
+                print("{} secunde".format("%.2f" % t))
     print()
+    
+
+    
     
