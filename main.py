@@ -4,9 +4,8 @@
 from random import *
 from copy import copy
 from time import time
-from math import log
+from math import log,sqrt
 
-#radix sort spate-fata, baza constanta modificabila
 
 
 ############################# sortari ########################
@@ -163,53 +162,82 @@ def generator(nr,maxim=1000000):
 ############################# validare+timp ###################
 
 
-def timesort(func):
-    t=time()
-    func(l)
-    t=time()-t
-    return "%.2f" % t
-    
-    
+def timp():
+    t = time()
+    format(float(t), '.2f')
+    t = float(t)
+    return t
+
+def Test(func,l):
+    t = timp()
+    m = func(l)
+    t = timp()-t
+    if isinstance(m, str):
+        return -1, -1
+    if m==sorted(m):
+        return 1, t
+    else:
+        return 0, t
+
 ############################# teste ##########################
 
+##  -1 = Sortare inoptima
+##  0 = Sortare incorecta
+##  1 = Sortare corecta
 
-def Test1_lista_data(func):
-    global l
-    m=func(l)
-    #print(m)
-    if isinstance(m, str):
-        return m
-    if m==sorted(m):
-        return("sortare corecta")
-    else:
-        return("sortare incorecta")
-    
+def Test1_lista_data():
+    global f
+    l = f.readline().split()
+    l = [int(i) for i in l]
+    return l
 
+def Test2_lista_generata():
+    global f
+    z = f.readline()
+    x, y = z.split()
+    x, y = int(x), int(y)
+    print("Generare numere...")
+    print()
+    l = generator(x, y)
+    return l
 
+def Test3_lista_crescatoare():
+    maxim = 10000
+    l = [i for i in range(1,maxim+1)]
+    return l
+
+def Test4_lista_descrescatoare():
+    maxim = 10000
+    l = [maxim-i for i in range(maxim)]
+    return l
+
+def Test5_same_number():
+    nr = 1
+    maxim = 10000
+    l = [nr for _ in range(maxim)]
+    return l
+
+def Test6_lista_vida():
+    l = []
+    return l
+
+def Test7_putine_nr_mari():
+    nr = 500
+    max = 100000
+    l = generator(nr,max)
+    return l
+
+def Test8_multe_nr_mici():
+    nr = 100000
+    max = 100
+    l = generator(nr,max)
+    return l
 
 ############################# main ###########################
 
-
-
-with open("input.txt","r") as f:
-    INPUTTYPE=int(f.readline())
-    if INPUTTYPE==1:
-        z=f.readline()
-        if " " in z:
-            x,y=z.split()
-            x,y=int(x),int(y)
-            print("Generare numere...")
-            print()
-            l=generator(x,y)
-        else:
-            z=int(z)
-            l=generator(z)
-    else:
-        l=f.readline().split()
-        l=[int(i) for i in l]
-
+f=open("input.txt")
 sortari=[bubblesort,countsort,radixsort,quicksort,mergesort]
-teste=[Test1_lista_data]
+teste=[Test1_lista_data, Test2_lista_generata, Test3_lista_crescatoare, Test4_lista_descrescatoare, Test5_same_number, Test6_lista_vida, Test7_putine_nr_mari, Test8_multe_nr_mici]
 timpi=[]
 for i in range(len(teste)):
     timpi.append([0]*len(sortari))
@@ -217,17 +245,23 @@ for i in range(len(teste)):
 
 i=0
 for test in teste:
-    print(test.__name__)
+    print(test.__name__,end="\n-----------------------------------------------\n")
     j=0
+    l = test()
     for sr in sortari:
         print(sr.__name__)
-        s=test(sr)
-        print(s)
-        if s=="sortare corecta":
-            t=timesort(sr)
-            timpi[i][j]=float(t)
+        v,t = Test(sr, l)
+        timpi[i][j]=float(t)
+        if v == 1:
+            print("Sortare corecta")
             print("{} secunde".format(t))
+        elif v==-1:
+            print("Sortare inoptima")
+        else:
+            print("Sortare incorecta")
         print()
         j+=1
     i+=1
 print(timpi)
+
+f.close()
