@@ -54,7 +54,6 @@ def best(l):
             m=i
     return m
 
-
 ############################# main ###########################
 
 f=open("input.txt")
@@ -69,24 +68,28 @@ for i in range(n):
     j=0
     m,M=f.readline().split()
     m,M=int(m),int(M)
-    print("Testul numarul {} : {} numere cu maximul {}".format(i+1,m,M),end="\n-----------------------------------------------\n")
+    print('\033[95m' + "Testul numarul {} : {} numere cu maximul {}".format(i+1,m,M) + '\033[0m',end="\n-----------------------------------------------\n")
     l = generator(m,M)
     for sr in sortari:
-        print(sr.__name__)
+        print('\033[91m' + sr.__name__ + '\033[0m')
         v,t = Test(sr, l)
         timpi[i][j]=float(t)
         if v == 1:
-            print("Sortare corecta")
-            print("{} secunde".format(t))
+            print('\033[92m' + "Sortare corecta" + '\033[0m')
+            print('\033[94m' + "{} secunde".format(t) + '\033[0m')
         elif v==-1:
-            print("Sortare inoptima")
+            print('\033[93m' + "Sortare inoptima" + '\033[0m')
         else:
-            print("Sortare incorecta")
+            print('\033[91m' + "Sortare incorecta" + '\033[0m')
         print()
         j+=1
     w=max(timpi[i])
     b=best(timpi[i])
-    print("Cel mai bun timp {}, cel mai slab timp {}\n".format(b,w))
+    print('\033[94m' + "Cel mai bun timp {}, cel mai slab timp {}\n".format(b,w) + '\033[0m')
 print(timpi)
+
+
+
+
 
 f.close()

@@ -2,9 +2,10 @@ from copy import copy
 from math import log,sqrt
 from random import choice
 
+
 def bubblesort(l):
     if (len(l) >= 30000):
-        return "Algoritm inoptim, nu se va executa sortarea"
+        return "inoptim"
     k = copy(l)
     ok = 1
     for i in range(1, len(k) - 1):
@@ -22,7 +23,7 @@ def cmmdc(l):
     if len(l)==0:
         return 0
     i = 0
-    while l[i] == 0 and i<len(l):
+    while i<len(l)-1 and l[i] == 0:
         i -= -1
     d = l[i]
     for i in range(1, len(l)):
@@ -40,11 +41,13 @@ def cmmdc(l):
 def countsort(l):
     if len(l) == 0:
         return l
-    d = cmmdc(l)
     m = min(l)  # daca numerele nu pot fi aduse intr-un interval
-    M = max(l)  # mai mic decat 1mil, nu se vor sorta elementele
-    if M // d - m // d >= 100000:
-        return "Algoritm inoptim, nu se va executa sortarea"
+    M = max(l)  # mai mic decat 10k, nu se vor sorta elementele
+    if M - m >= 10000:
+        return "inoptim"
+    d = cmmdc(l)
+    if d==0:
+        return l
     m //= d
     k = copy(l)
     p = 0  # pentru a sti la final daca elementele au fost prelucrate
@@ -78,9 +81,9 @@ def convert(k):
 
 
 def radixsort(l):
+    if len(l)==0 or max(l)==0:
+        return l
     L = copy(l)
-    if len(L)==0:
-        return L
     baza_radix = 256
     curent = 1
     k = {}
